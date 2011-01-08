@@ -19,7 +19,7 @@ require 'ostruct'
 # hair out sifting through the code below.
 # 
 module Wirble
-  VERSION = '0.1.3.3'
+  VERSION = '0.1.2'
 
   #
   # Load internal Ruby features, including pp, tab-completion, 
@@ -182,6 +182,7 @@ module Wirble
               # ignore these, they're used elsewhere
               nil
             else 
+              yield :unknown, c
               # $stderr.puts "DEBUG: ignoring char #{c}"
             end
           when :symbol
@@ -216,9 +217,9 @@ module Wirble
             else
               # is this a class?
               st = val =~ /^[A-Z]/ ? :class : state[-1]
-
               yield st, val
               state.pop; val = ''
+              val << '.' if c == '.'
               repeat = true
             end
           when :number
@@ -361,6 +362,7 @@ module Wirble
       :keyword            => :green,
       :class              => :light_green,
       :range              => :red,
+      :unknown            => :green
     }
 
     #
@@ -443,7 +445,7 @@ module Wirble
         end
       end
 
-      self.colors = custom_colors if custom_colors
+      colors = custom_colors if custom_colors
     end
 
     #

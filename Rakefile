@@ -4,7 +4,7 @@
 require 'rake/rdoctask'
 require 'rake/packagetask'
 require 'rake/gempackagetask'
-require 'lib/wirble.rb'
+#require 'lib/wirble.rb'
 
 def package_info
   require 'ostruct'
@@ -21,7 +21,7 @@ def package_info
     tab-completion, history, a simple prompt, and several helper
     methods, all rolled into one easy to use package.
   EOF
-  ret.version       = Wirble::VERSION
+  ret.version       = '0.1.2'
   ret.platform      = Gem::Platform::RUBY
   ret.url           = 'http://pablotron.org/software/wirble/'
 
@@ -63,7 +63,7 @@ pkg = package_info
 
 gem_spec = Gem::Specification.new do |s|
   # package information
-  s.name      = 'blackwinter-' + pkg.name.downcase
+  s.name      = 'wedesoft-' + pkg.name.downcase
   s.platform  = pkg.platform
   s.version   = pkg.version
   s.summary   = s.description = pkg.blurb
@@ -110,5 +110,6 @@ Rake::RDocTask.new do |rd|
   rd.options.concat(pkg.rdoc_options)
 end
 
+task :default => :gem
 task :clean => [:clobber]
 task :release => [:clean, :package]
